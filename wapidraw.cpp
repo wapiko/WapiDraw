@@ -5,8 +5,10 @@ WapiDraw::WapiDraw(QWidget *parent) :
     QWidget(parent)
 {
   mainCanvas = new Canvas(this);
-  mainCanvas->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+  canvasTabs = new QTabWidget(this);
+  canvasTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+  addTabs(mainCanvas, "canvas");
 
   circleButton = new QPushButton(tr("&Circle"));
   circleButton->show();
@@ -23,7 +25,7 @@ WapiDraw::WapiDraw(QWidget *parent) :
 
   QHBoxLayout *windowLayout = new QHBoxLayout;
   windowLayout->addLayout(buttonLayout);
-  windowLayout->addWidget(mainCanvas);
+  windowLayout->addWidget(canvasTabs);
   // windowLayout->addStretch();
 
   QGridLayout *mainLayout = new QGridLayout;
@@ -39,4 +41,8 @@ void WapiDraw::pushedCircleB(){
 }
 
 void WapiDraw::pushedRectB(){
+}
+
+void WapiDraw::addTabs(Canvas* canvas, QString filename){
+  canvasTabs->addTab(canvas, filename);
 }

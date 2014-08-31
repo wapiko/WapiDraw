@@ -6,6 +6,8 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QSizePolicy>
+#include <QTabWidget>
+#include <QString>
 
 #include <canvas.h>
 
@@ -22,10 +24,13 @@ public slots:
   void pushedRectB();
    
 private:
-    Canvas *mainCanvas;
+  QTabWidget *canvasTabs;
+  Canvas *mainCanvas;
 
-    QPushButton *circleButton;
-    QPushButton *rectButton;
+  QPushButton *circleButton;
+  QPushButton *rectButton;
+
+  void addTabs(Canvas*, QString);
 };
 
 #endif // WAPIDRAW_H
