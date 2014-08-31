@@ -4,7 +4,9 @@
 WapiDraw::WapiDraw(QWidget *parent) :
     QWidget(parent)
 {
-  clicked = false;
+  mainCanvas = new Canvas(this);
+  mainCanvas->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
 
   circleButton = new QPushButton(tr("&Circle"));
   circleButton->show();
@@ -21,7 +23,8 @@ WapiDraw::WapiDraw(QWidget *parent) :
 
   QHBoxLayout *windowLayout = new QHBoxLayout;
   windowLayout->addLayout(buttonLayout);
-  windowLayout->addStretch();
+  windowLayout->addWidget(mainCanvas);
+  // windowLayout->addStretch();
 
   QGridLayout *mainLayout = new QGridLayout;
   mainLayout->addLayout(windowLayout, 0, 0);
@@ -30,23 +33,7 @@ WapiDraw::WapiDraw(QWidget *parent) :
 }
 
 
-void WapiDraw::paintEvent(QPaintEvent* event)
-{
-  if(clicked){
-    QPainter painter(this);
-    painter.setPen(Qt::blue);
-    painter.drawText(clickedX, clickedY, "Hello, world.");
-    painter.drawEllipse(clickedX, clickedY, 400, 240);
-  }
 
-}
-
-void WapiDraw::mousePressEvent(QMouseEvent* event){
-  clicked = true;
-  clickedX = event->x();
-  clickedY = event->y();
-  repaint();
-}
  
 void WapiDraw::pushedCircleB(){
 }

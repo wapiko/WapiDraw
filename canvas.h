@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QWidget>
+#include <QPaintEvent>
+#include <QPainter>
+
 
 class Canvas : public QWidget
 {
@@ -11,7 +14,15 @@ public:
 
 signals:
 
-public slots:
+protected:
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent* event);
+
+private:
+    bool clicked;
+    int clickedX;
+    int clickedY;
+
 
 };
 

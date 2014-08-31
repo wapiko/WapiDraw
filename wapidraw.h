@@ -2,11 +2,10 @@
 #define WAPIDRAW_H
 
 #include <QWidget>
-#include <QPaintEvent>
-#include <QPainter>
 #include <QMouseEvent>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QSizePolicy>
 
 #include <canvas.h>
 
@@ -21,19 +20,12 @@ public:
 public slots:
   void pushedCircleB();
   void pushedRectB();
-
-protected:
-    void paintEvent(QPaintEvent *event);
-    void mousePressEvent(QMouseEvent* event);
    
 private:
-    
+    Canvas *mainCanvas;
+
     QPushButton *circleButton;
     QPushButton *rectButton;
-
-    bool clicked;
-    int clickedX;
-    int clickedY;
 };
 
 #endif // WAPIDRAW_H
