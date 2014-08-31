@@ -5,6 +5,10 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QGridLayout>
+#include <QPushButton>
+
+#include <canvas.h>
 
 
 class WapiDraw : public QWidget
@@ -14,11 +18,19 @@ class WapiDraw : public QWidget
 public:
     explicit WapiDraw(QWidget *parent = 0);
 
- protected:
+public slots:
+  void pushedCircleB();
+  void pushedRectB();
+
+protected:
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent* event);
    
 private:
+    
+    QPushButton *circleButton;
+    QPushButton *rectButton;
+
     bool clicked;
     int clickedX;
     int clickedY;
