@@ -17,6 +17,7 @@ SOURCES += main.cpp\
     canvas.cpp
 
 HEADERS  += wapidraw.h \
-    canvas.h
+    canvas.h \
+    DrawMode.h
 
 FORMS    += wapidraw.ui

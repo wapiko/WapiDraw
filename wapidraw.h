@@ -8,6 +8,9 @@
 #include <QSizePolicy>
 #include <QTabWidget>
 #include <QString>
+#include <QDockWidget>
+
+#include <DrawMode.h>
 
 #include <canvas.h>
 
@@ -26,11 +29,17 @@ public slots:
 private:
   QTabWidget *canvasTabs;
   Canvas *mainCanvas;
+  Canvas *nowCanvas;
+ 
+  int mode;
 
   QPushButton *circleButton;
   QPushButton *rectButton;
 
   void addTabs(Canvas*, QString);
+  void changeTabs();
+  void setMode(int);
+
 };
 
 #endif // WAPIDRAW_H
