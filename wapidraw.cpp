@@ -6,7 +6,7 @@ WapiDraw::WapiDraw(QWidget *parent) :
 {
   mainCanvas = new Canvas(this);
   nowCanvas = mainCanvas;
-  mode = 0;
+  mode = NORMALMODE;
 
   canvasTabs = new QTabWidget(this);
   canvasTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
