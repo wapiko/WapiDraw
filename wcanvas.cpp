@@ -5,6 +5,8 @@ WCanvas::WCanvas(QWidget *parent) :
 {
   startPoint = new QPoint();
   endPoint = new QPoint();
+
+  wdrawlist = new WDrawItems();
 }
 
 void WCanvas::mousePressEvent(QMouseEvent* event){
@@ -37,19 +39,34 @@ void WCanvas::paintEvent(QPaintEvent* event)
     else if(mode==RECTMODE){
       this->drawRect(painter);
     }
+
+    int i = 0;
+    WDrawItem* nowitem = this->wdrawlist->getTail();
+    for(i = 0; i < this->wdrawlist->getSize(); i++){
+      WDrawObject* obj = nowitem->getObject();
+      obj->draw(painter);
+      nowitem = nowitem->getNext();
+    }
 }
 
 
 void WCanvas::drawCircle(QPainter *painter){
   int x, y, w, h;
   this->getPoints(&x, &y, &w, &h);
-  painter->drawEllipse(x, y, w, h);
+
+  WCircle* r = new WCircle(CIRCLEMODE, x, y, w, h);
+  WDrawItem* item = new WDrawItem(r); 
+  this->wdrawlist->addItem(item);
+
 }
 
 void WCanvas::drawRect(QPainter *painter){
   int x, y, w, h;
   this->getPoints(&x, &y, &w, &h);
-  painter->drawRect(x, y, w, h);
+
+  WRect* r = new WRect(RECTMODE, x, y, w, h);
+  WDrawItem* item = new WDrawItem(r); 
+  this->wdrawlist->addItem(item);
 }
 
 void WCanvas::drawText(QPainter *painter){

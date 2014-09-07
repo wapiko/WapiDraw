@@ -47,11 +47,21 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		wapidraw.cpp \
-		wcanvas.cpp moc_wapidraw.cpp \
+		wcanvas.cpp \
+		wdrawitem.cpp \
+		wdrawitems.cpp \
+		wdrawobject.cpp \
+		wrect.cpp \
+		wcircle.cpp moc_wapidraw.cpp \
 		moc_wcanvas.cpp
 OBJECTS       = main.o \
 		wapidraw.o \
 		wcanvas.o \
+		wdrawitem.o \
+		wdrawitems.o \
+		wdrawobject.o \
+		wrect.o \
+		wcircle.o \
 		moc_wapidraw.o \
 		moc_wcanvas.o
 DIST          = ../../qt/5.3/gcc/mkspecs/features/spec_pre.prf \
@@ -163,7 +173,12 @@ DIST          = ../../qt/5.3/gcc/mkspecs/features/spec_pre.prf \
 		../../qt/5.3/gcc/mkspecs/features/lex.prf \
 		WapiDraw.pro main.cpp \
 		wapidraw.cpp \
-		wcanvas.cpp
+		wcanvas.cpp \
+		wdrawitem.cpp \
+		wdrawitems.cpp \
+		wdrawobject.cpp \
+		wrect.cpp \
+		wcircle.cpp
 QMAKE_TARGET  = WapiDraw
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = WapiDraw
@@ -426,7 +441,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/WapiDraw1.0.0 || mkdir -p .tmp/WapiDraw1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.h wcanvas.h WDrawMode.h .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents main.cpp wapidraw.cpp wcanvas.cpp .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.ui .tmp/WapiDraw1.0.0/ && (cd `dirname .tmp/WapiDraw1.0.0` && $(TAR) WapiDraw1.0.0.tar WapiDraw1.0.0 && $(COMPRESS) WapiDraw1.0.0.tar) && $(MOVE) `dirname .tmp/WapiDraw1.0.0`/WapiDraw1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/WapiDraw1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.h wcanvas.h WDrawMode.h wdrawitem.h wdrawitems.h wdrawobject.h wrect.h wcircle.h .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents main.cpp wapidraw.cpp wcanvas.cpp wdrawitem.cpp wdrawitems.cpp wdrawobject.cpp wrect.cpp wcircle.cpp .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.ui .tmp/WapiDraw1.0.0/ && (cd `dirname .tmp/WapiDraw1.0.0` && $(TAR) WapiDraw1.0.0.tar WapiDraw1.0.0 && $(COMPRESS) WapiDraw1.0.0.tar) && $(MOVE) `dirname .tmp/WapiDraw1.0.0`/WapiDraw1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/WapiDraw1.0.0
 
 
 clean:compiler_clean 
@@ -568,12 +583,17 @@ moc_wapidraw.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
+		WDrawMode.h \
 		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		wdrawitems.h \
+		wrect.h \
 		wapidraw.h
 	/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/bin/moc $(DEFINES) -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/mkspecs/linux-g++ -I/home/wapiko/Documents/workspace/C++/illustsoft/WapiDraw -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtWidgets -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtGui -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtCore wapidraw.h -o moc_wapidraw.cpp
 
@@ -682,6 +702,11 @@ moc_wcanvas.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		WDrawMode.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		wdrawitems.h \
+		wrect.h \
 		wcanvas.h
 	/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/bin/moc $(DEFINES) -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/mkspecs/linux-g++ -I/home/wapiko/Documents/workspace/C++/illustsoft/WapiDraw -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtWidgets -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtGui -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtCore wcanvas.h -o moc_wcanvas.cpp
 
@@ -820,12 +845,17 @@ main.o: main.cpp wapidraw.h \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
+		WDrawMode.h \
 		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		wdrawitems.h \
+		wrect.h \
 		../../qt/5.3/gcc/include/QtWidgets/QApplication \
 		../../qt/5.3/gcc/include/QtWidgets/qapplication.h \
 		../../qt/5.3/gcc/include/QtCore/qcoreapplication.h \
@@ -952,12 +982,17 @@ wapidraw.o: wapidraw.cpp wapidraw.h \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
+		WDrawMode.h \
 		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		wdrawitems.h \
+		wrect.h \
 		ui_wapidraw.h \
 		../../qt/5.3/gcc/include/QtCore/QVariant \
 		../../qt/5.3/gcc/include/QtWidgets/QAction \
@@ -1105,8 +1140,452 @@ wcanvas.o: wcanvas.cpp wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
-		../../qt/5.3/gcc/include/QtGui/qpen.h
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		WDrawMode.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		wdrawitems.h \
+		wrect.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wcanvas.o wcanvas.cpp
+
+wdrawitem.o: wdrawitem.cpp wdrawitem.h \
+		wdrawobject.h \
+		../../qt/5.3/gcc/include/QtGui/QPainter \
+		../../qt/5.3/gcc/include/QtGui/qpainter.h \
+		../../qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../qt/5.3/gcc/include/QtCore/qflags.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../qt/5.3/gcc/include/QtCore/qrect.h \
+		../../qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../qt/5.3/gcc/include/QtCore/qsize.h \
+		../../qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../qt/5.3/gcc/include/QtCore/qobject.h \
+		../../qt/5.3/gcc/include/QtCore/qstring.h \
+		../../qt/5.3/gcc/include/QtCore/qchar.h \
+		../../qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../qt/5.3/gcc/include/QtCore/qlist.h \
+		../../qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qpair.h \
+		../../qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qhash.h \
+		../../qt/5.3/gcc/include/QtGui/qimage.h \
+		../../qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../qt/5.3/gcc/include/QtCore/qvector.h \
+		../../qt/5.3/gcc/include/QtGui/qregion.h \
+		../../qt/5.3/gcc/include/QtCore/qline.h \
+		../../qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		../../qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../qt/5.3/gcc/include/QtGui/qfont.h \
+		../../qt/5.3/gcc/include/QtGui/qfontmetrics.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wdrawitem.o wdrawitem.cpp
+
+wdrawitems.o: wdrawitems.cpp wdrawitems.h \
+		wdrawitem.h \
+		wdrawobject.h \
+		../../qt/5.3/gcc/include/QtGui/QPainter \
+		../../qt/5.3/gcc/include/QtGui/qpainter.h \
+		../../qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../qt/5.3/gcc/include/QtCore/qflags.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../qt/5.3/gcc/include/QtCore/qrect.h \
+		../../qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../qt/5.3/gcc/include/QtCore/qsize.h \
+		../../qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../qt/5.3/gcc/include/QtCore/qobject.h \
+		../../qt/5.3/gcc/include/QtCore/qstring.h \
+		../../qt/5.3/gcc/include/QtCore/qchar.h \
+		../../qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../qt/5.3/gcc/include/QtCore/qlist.h \
+		../../qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qpair.h \
+		../../qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qhash.h \
+		../../qt/5.3/gcc/include/QtGui/qimage.h \
+		../../qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../qt/5.3/gcc/include/QtCore/qvector.h \
+		../../qt/5.3/gcc/include/QtGui/qregion.h \
+		../../qt/5.3/gcc/include/QtCore/qline.h \
+		../../qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		../../qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../qt/5.3/gcc/include/QtGui/qfont.h \
+		../../qt/5.3/gcc/include/QtGui/qfontmetrics.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wdrawitems.o wdrawitems.cpp
+
+wdrawobject.o: wdrawobject.cpp wdrawobject.h \
+		../../qt/5.3/gcc/include/QtGui/QPainter \
+		../../qt/5.3/gcc/include/QtGui/qpainter.h \
+		../../qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../qt/5.3/gcc/include/QtCore/qflags.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../qt/5.3/gcc/include/QtCore/qrect.h \
+		../../qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../qt/5.3/gcc/include/QtCore/qsize.h \
+		../../qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../qt/5.3/gcc/include/QtCore/qobject.h \
+		../../qt/5.3/gcc/include/QtCore/qstring.h \
+		../../qt/5.3/gcc/include/QtCore/qchar.h \
+		../../qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../qt/5.3/gcc/include/QtCore/qlist.h \
+		../../qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qpair.h \
+		../../qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qhash.h \
+		../../qt/5.3/gcc/include/QtGui/qimage.h \
+		../../qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../qt/5.3/gcc/include/QtCore/qvector.h \
+		../../qt/5.3/gcc/include/QtGui/qregion.h \
+		../../qt/5.3/gcc/include/QtCore/qline.h \
+		../../qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		../../qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../qt/5.3/gcc/include/QtGui/qfont.h \
+		../../qt/5.3/gcc/include/QtGui/qfontmetrics.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wdrawobject.o wdrawobject.cpp
+
+wrect.o: wrect.cpp wrect.h \
+		wdrawobject.h \
+		../../qt/5.3/gcc/include/QtGui/QPainter \
+		../../qt/5.3/gcc/include/QtGui/qpainter.h \
+		../../qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../qt/5.3/gcc/include/QtCore/qflags.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../qt/5.3/gcc/include/QtCore/qrect.h \
+		../../qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../qt/5.3/gcc/include/QtCore/qsize.h \
+		../../qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../qt/5.3/gcc/include/QtCore/qobject.h \
+		../../qt/5.3/gcc/include/QtCore/qstring.h \
+		../../qt/5.3/gcc/include/QtCore/qchar.h \
+		../../qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../qt/5.3/gcc/include/QtCore/qlist.h \
+		../../qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qpair.h \
+		../../qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qhash.h \
+		../../qt/5.3/gcc/include/QtGui/qimage.h \
+		../../qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../qt/5.3/gcc/include/QtCore/qvector.h \
+		../../qt/5.3/gcc/include/QtGui/qregion.h \
+		../../qt/5.3/gcc/include/QtCore/qline.h \
+		../../qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		../../qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../qt/5.3/gcc/include/QtGui/qfont.h \
+		../../qt/5.3/gcc/include/QtGui/qfontmetrics.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wrect.o wrect.cpp
+
+wcircle.o: wcircle.cpp wcircle.h \
+		../../qt/5.3/gcc/include/QtGui/QPainter \
+		../../qt/5.3/gcc/include/QtGui/qpainter.h \
+		../../qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../qt/5.3/gcc/include/QtCore/qflags.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../qt/5.3/gcc/include/QtCore/qrect.h \
+		../../qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../qt/5.3/gcc/include/QtCore/qsize.h \
+		../../qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../qt/5.3/gcc/include/QtCore/qobject.h \
+		../../qt/5.3/gcc/include/QtCore/qstring.h \
+		../../qt/5.3/gcc/include/QtCore/qchar.h \
+		../../qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../qt/5.3/gcc/include/QtCore/qlist.h \
+		../../qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qpair.h \
+		../../qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../qt/5.3/gcc/include/QtCore/qhash.h \
+		../../qt/5.3/gcc/include/QtGui/qimage.h \
+		../../qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../qt/5.3/gcc/include/QtCore/qvector.h \
+		../../qt/5.3/gcc/include/QtGui/qregion.h \
+		../../qt/5.3/gcc/include/QtCore/qline.h \
+		../../qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../qt/5.3/gcc/include/QtGui/qpen.h \
+		../../qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../qt/5.3/gcc/include/QtGui/qfont.h \
+		../../qt/5.3/gcc/include/QtGui/qfontmetrics.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wcircle.o wcircle.cpp
 
 moc_wapidraw.o: moc_wapidraw.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_wapidraw.o moc_wapidraw.cpp

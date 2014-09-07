@@ -1,12 +1,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
+using namespace std;
+
 #include <QWidget>
 #include <QPaintEvent>
 #include <QPainter>
 
 #include <WDrawMode.h>
+#include <wdrawitem.h>
+#include <wdrawitems.h>
 
+#include <wdrawobject.h>
+#include <wrect.h>
+#include <wcircle.h>
 
 class WCanvas : public QWidget
 {
@@ -27,6 +35,8 @@ private:
     int clickedX;
     int clickedY;
     int mode;
+
+    WDrawItems* wdrawlist; 
     
     QPoint *startPoint;
     QPoint *endPoint;
