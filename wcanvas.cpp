@@ -1,30 +1,30 @@
-#include "canvas.h"
+#include "wcanvas.h"
 
-Canvas::Canvas(QWidget *parent) :
+WCanvas::WCanvas(QWidget *parent) :
     QWidget(parent)
 {
   startPoint = new QPoint();
   endPoint = new QPoint();
 }
 
-void Canvas::mousePressEvent(QMouseEvent* event){
+void WCanvas::mousePressEvent(QMouseEvent* event){
   startPoint->setX(event->x());
   startPoint->setY(event->y());
 }
 
-void Canvas::mouseReleaseEvent(QMouseEvent* event){
+void WCanvas::mouseReleaseEvent(QMouseEvent* event){
   endPoint->setX(event->x());
   endPoint->setY(event->y());
   repaint();
 }
 
 
-void Canvas::setMode(int setmode){
+void WCanvas::setMode(int setmode){
   this->mode = setmode;
 }
 
 
-void Canvas::paintEvent(QPaintEvent* event)
+void WCanvas::paintEvent(QPaintEvent* event)
 {
     QPainter *painter = new QPainter(this);
     painter->setPen(Qt::blue);
@@ -40,24 +40,24 @@ void Canvas::paintEvent(QPaintEvent* event)
 }
 
 
-void Canvas::drawCircle(QPainter *painter){
+void WCanvas::drawCircle(QPainter *painter){
   int x, y, w, h;
   this->getPoints(&x, &y, &w, &h);
   painter->drawEllipse(x, y, w, h);
 }
 
-void Canvas::drawRect(QPainter *painter){
+void WCanvas::drawRect(QPainter *painter){
   int x, y, w, h;
   this->getPoints(&x, &y, &w, &h);
   painter->drawRect(x, y, w, h);
 }
 
-void Canvas::drawText(QPainter *painter){
+void WCanvas::drawText(QPainter *painter){
   painter->drawText(clickedX, clickedY, "Hello, world.");
 }
 
 
-void Canvas::getPoints(int* x, int * y, int * w, int* h){
+void WCanvas::getPoints(int* x, int * y, int * w, int* h){
     *x = endPoint->x();
     *w = startPoint->x() - endPoint->x();
     *y = endPoint->y();

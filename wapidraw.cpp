@@ -4,7 +4,7 @@
 WapiDraw::WapiDraw(QWidget *parent) :
     QWidget(parent)
 {
-  mainCanvas = new Canvas(this);
+  mainCanvas = new WCanvas(this);
   nowCanvas = mainCanvas;
   mode = NORMALMODE;
 
@@ -56,7 +56,7 @@ void WapiDraw::setMode(int nmode){
   this->nowCanvas->setMode(nmode);
 }
 
-void WapiDraw::addTabs(Canvas* canvas, QString filename){
+void WapiDraw::addTabs(WCanvas* canvas, QString filename){
   canvas->setMode(mode);
   canvasTabs->addTab(canvas, filename);
 }

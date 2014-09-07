@@ -10,9 +10,9 @@
 #include <QString>
 #include <QDockWidget>
 
-#include <DrawMode.h>
+#include <WDrawMode.h>
 
-#include <canvas.h>
+#include <wcanvas.h>
 
 
 class WapiDraw : public QWidget
@@ -28,15 +28,15 @@ public slots:
    
 private:
   QTabWidget *canvasTabs;
-  Canvas *mainCanvas;
-  Canvas *nowCanvas;
+  WCanvas *mainCanvas;
+  WCanvas *nowCanvas;
  
   int mode;
 
   QPushButton *circleButton;
   QPushButton *rectButton;
 
-  void addTabs(Canvas*, QString);
+  void addTabs(WCanvas*, QString);
   void changeTabs();
   void setMode(int);
 

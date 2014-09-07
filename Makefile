@@ -47,13 +47,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		wapidraw.cpp \
-		canvas.cpp moc_wapidraw.cpp \
-		moc_canvas.cpp
+		wcanvas.cpp moc_wapidraw.cpp \
+		moc_wcanvas.cpp
 OBJECTS       = main.o \
 		wapidraw.o \
-		canvas.o \
+		wcanvas.o \
 		moc_wapidraw.o \
-		moc_canvas.o
+		moc_wcanvas.o
 DIST          = ../../qt/5.3/gcc/mkspecs/features/spec_pre.prf \
 		../../qt/5.3/gcc/mkspecs/common/shell-unix.conf \
 		../../qt/5.3/gcc/mkspecs/common/unix.conf \
@@ -163,7 +163,7 @@ DIST          = ../../qt/5.3/gcc/mkspecs/features/spec_pre.prf \
 		../../qt/5.3/gcc/mkspecs/features/lex.prf \
 		WapiDraw.pro main.cpp \
 		wapidraw.cpp \
-		canvas.cpp
+		wcanvas.cpp
 QMAKE_TARGET  = WapiDraw
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = WapiDraw
@@ -426,7 +426,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/WapiDraw1.0.0 || mkdir -p .tmp/WapiDraw1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.h canvas.h DrawMode.h .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents main.cpp wapidraw.cpp canvas.cpp .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.ui .tmp/WapiDraw1.0.0/ && (cd `dirname .tmp/WapiDraw1.0.0` && $(TAR) WapiDraw1.0.0.tar WapiDraw1.0.0 && $(COMPRESS) WapiDraw1.0.0.tar) && $(MOVE) `dirname .tmp/WapiDraw1.0.0`/WapiDraw1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/WapiDraw1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.h wcanvas.h WDrawMode.h .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents main.cpp wapidraw.cpp wcanvas.cpp .tmp/WapiDraw1.0.0/ && $(COPY_FILE) --parents wapidraw.ui .tmp/WapiDraw1.0.0/ && (cd `dirname .tmp/WapiDraw1.0.0` && $(TAR) WapiDraw1.0.0.tar WapiDraw1.0.0 && $(COMPRESS) WapiDraw1.0.0.tar) && $(MOVE) `dirname .tmp/WapiDraw1.0.0`/WapiDraw1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/WapiDraw1.0.0
 
 
 clean:compiler_clean 
@@ -449,9 +449,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_wapidraw.cpp moc_canvas.cpp
+compiler_moc_header_make_all: moc_wapidraw.cpp moc_wcanvas.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_wapidraw.cpp moc_canvas.cpp
+	-$(DEL_FILE) moc_wapidraw.cpp moc_wcanvas.cpp
 moc_wapidraw.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qwidget.h \
 		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
@@ -568,8 +568,7 @@ moc_wapidraw.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
-		DrawMode.h \
-		canvas.h \
+		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
@@ -578,7 +577,7 @@ moc_wapidraw.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		wapidraw.h
 	/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/bin/moc $(DEFINES) -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/mkspecs/linux-g++ -I/home/wapiko/Documents/workspace/C++/illustsoft/WapiDraw -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtWidgets -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtGui -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtCore wapidraw.h -o moc_wapidraw.cpp
 
-moc_canvas.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
+moc_wcanvas.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qwidget.h \
 		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
 		../../qt/5.3/gcc/include/QtCore/qglobal.h \
@@ -683,9 +682,8 @@ moc_canvas.cpp: ../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
-		DrawMode.h \
-		canvas.h
-	/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/bin/moc $(DEFINES) -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/mkspecs/linux-g++ -I/home/wapiko/Documents/workspace/C++/illustsoft/WapiDraw -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtWidgets -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtGui -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtCore canvas.h -o moc_canvas.cpp
+		wcanvas.h
+	/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/bin/moc $(DEFINES) -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/mkspecs/linux-g++ -I/home/wapiko/Documents/workspace/C++/illustsoft/WapiDraw -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtWidgets -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtGui -I/home/wapiko/Documents/workspace/C++/qt/5.3/gcc/include/QtCore wcanvas.h -o moc_wcanvas.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -822,8 +820,7 @@ main.o: main.cpp wapidraw.h \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
-		DrawMode.h \
-		canvas.h \
+		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
@@ -955,17 +952,55 @@ wapidraw.o: wapidraw.cpp wapidraw.h \
 		../../qt/5.3/gcc/include/QtCore/QString \
 		../../qt/5.3/gcc/include/QtWidgets/QDockWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qdockwidget.h \
-		DrawMode.h \
-		canvas.h \
+		wcanvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPaintEvent \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../qt/5.3/gcc/include/QtGui/qpen.h \
-		ui_wapidraw.h
+		ui_wapidraw.h \
+		../../qt/5.3/gcc/include/QtCore/QVariant \
+		../../qt/5.3/gcc/include/QtWidgets/QAction \
+		../../qt/5.3/gcc/include/QtWidgets/qaction.h \
+		../../qt/5.3/gcc/include/QtWidgets/qactiongroup.h \
+		../../qt/5.3/gcc/include/QtWidgets/QApplication \
+		../../qt/5.3/gcc/include/QtWidgets/qapplication.h \
+		../../qt/5.3/gcc/include/QtCore/qcoreapplication.h \
+		../../qt/5.3/gcc/include/QtCore/qeventloop.h \
+		../../qt/5.3/gcc/include/QtWidgets/qdesktopwidget.h \
+		../../qt/5.3/gcc/include/QtGui/qguiapplication.h \
+		../../qt/5.3/gcc/include/QtGui/qinputmethod.h \
+		../../qt/5.3/gcc/include/QtWidgets/QButtonGroup \
+		../../qt/5.3/gcc/include/QtWidgets/qbuttongroup.h \
+		../../qt/5.3/gcc/include/QtWidgets/QHeaderView \
+		../../qt/5.3/gcc/include/QtWidgets/qheaderview.h \
+		../../qt/5.3/gcc/include/QtWidgets/qabstractitemview.h \
+		../../qt/5.3/gcc/include/QtWidgets/qabstractscrollarea.h \
+		../../qt/5.3/gcc/include/QtWidgets/qframe.h \
+		../../qt/5.3/gcc/include/QtCore/qabstractitemmodel.h \
+		../../qt/5.3/gcc/include/QtCore/qitemselectionmodel.h \
+		../../qt/5.3/gcc/include/QtWidgets/qabstractitemdelegate.h \
+		../../qt/5.3/gcc/include/QtWidgets/qstyleoption.h \
+		../../qt/5.3/gcc/include/QtWidgets/qabstractspinbox.h \
+		../../qt/5.3/gcc/include/QtGui/qvalidator.h \
+		../../qt/5.3/gcc/include/QtCore/qregularexpression.h \
+		../../qt/5.3/gcc/include/QtWidgets/qslider.h \
+		../../qt/5.3/gcc/include/QtWidgets/qabstractslider.h \
+		../../qt/5.3/gcc/include/QtWidgets/qstyle.h \
+		../../qt/5.3/gcc/include/QtWidgets/qtabbar.h \
+		../../qt/5.3/gcc/include/QtWidgets/qrubberband.h \
+		../../qt/5.3/gcc/include/QtWidgets/QMainWindow \
+		../../qt/5.3/gcc/include/QtWidgets/qmainwindow.h \
+		../../qt/5.3/gcc/include/QtWidgets/QMenuBar \
+		../../qt/5.3/gcc/include/QtWidgets/qmenubar.h \
+		../../qt/5.3/gcc/include/QtWidgets/qmenu.h \
+		../../qt/5.3/gcc/include/QtWidgets/QStatusBar \
+		../../qt/5.3/gcc/include/QtWidgets/qstatusbar.h \
+		../../qt/5.3/gcc/include/QtWidgets/QToolBar \
+		../../qt/5.3/gcc/include/QtWidgets/qtoolbar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wapidraw.o wapidraw.cpp
 
-canvas.o: canvas.cpp canvas.h \
+wcanvas.o: wcanvas.cpp wcanvas.h \
 		../../qt/5.3/gcc/include/QtWidgets/QWidget \
 		../../qt/5.3/gcc/include/QtWidgets/qwidget.h \
 		../../qt/5.3/gcc/include/QtGui/qwindowdefs.h \
@@ -1070,15 +1105,14 @@ canvas.o: canvas.cpp canvas.h \
 		../../qt/5.3/gcc/include/QtGui/QPainter \
 		../../qt/5.3/gcc/include/QtGui/qpainter.h \
 		../../qt/5.3/gcc/include/QtGui/qtextoption.h \
-		../../qt/5.3/gcc/include/QtGui/qpen.h \
-		DrawMode.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o canvas.o canvas.cpp
+		../../qt/5.3/gcc/include/QtGui/qpen.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wcanvas.o wcanvas.cpp
 
 moc_wapidraw.o: moc_wapidraw.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_wapidraw.o moc_wapidraw.cpp
 
-moc_canvas.o: moc_canvas.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_canvas.o moc_canvas.cpp
+moc_wcanvas.o: moc_wcanvas.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_wcanvas.o moc_wcanvas.cpp
 
 ####### Install
 

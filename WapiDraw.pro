@@ -14,10 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         wapidraw.cpp \
-    canvas.cpp
+    wcanvas.cpp
 
 HEADERS  += wapidraw.h \
-    canvas.h \
-    DrawMode.h
+    wcanvas.h \
+    WDrawMode.h
 
 FORMS    += wapidraw.ui

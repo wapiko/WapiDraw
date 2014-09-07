@@ -5,14 +5,14 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-#include <DrawMode.h>
+#include <WDrawMode.h>
 
 
-class Canvas : public QWidget
+class WCanvas : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Canvas(QWidget *parent = 0);
+    explicit WCanvas(QWidget *parent = 0);
 
     void setMode(int);
 
